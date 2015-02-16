@@ -1,8 +1,6 @@
 package com.churches.by;
 
-import android.content.Context;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -57,8 +55,7 @@ public class ChurchesMap extends ActionBarActivity {
     }
 
     private void updatePlaces(){
-        LocationManager locMan = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location lastLoc = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Location lastLoc = CAppliation.locationManager().lastKnownLocation();
 
         double lat = lastLoc.getLatitude();
         double lng = lastLoc.getLongitude();
