@@ -4,10 +4,14 @@ buildscript {
     }
     dependencies {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.14.1'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.9.+'
     }
 }
+apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'spoon'
 
 android {
     compileSdkVersion 21
@@ -41,4 +45,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'org.androidannotations:androidannotations-api:3.2'
     compile 'com.google.android.gms:play-services:6.5.87'
+
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.1.2'
 }
