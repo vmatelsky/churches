@@ -24,8 +24,8 @@ public class DataProvider {
     public void requestChurches(Receiver<List<Church>> churchesList) {
         Locale locale = Locale.US;
         Address address = new Address(locale);
-        address.setLatitude(53.5411);
-        address.setLongitude(27.3315);
+        address.setLatitude(53.9031514);
+        address.setLongitude(27.5546604);
         address.setCountryCode("BY");
         address.setCountryName("Belarus");
         Church church = new Church("St. Smb", address);
