@@ -1,24 +1,24 @@
 package com.churches.by;
 
+import android.content.Intent;
 import android.location.Address;
-import android.location.Location;
-import android.support.v4.app.FragmentActivity;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.vla3089.functional.Receiver;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 
 import java.util.List;
@@ -50,11 +50,18 @@ public class ChurchesMap extends ActionBarActivity {
         }
 
         if (mMap != null) {
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.setMyLocationEnabled(true);
             displayChurches();
         }
     }
+
+    @OptionsItem(R.id.action_settings)
+    protected void startIntentService() {
+        Intent intent = new Intent(this, FetchAddressIntentService.class);
+        intent.putExtra(FetchAddressIntentService.REQUEST_ADDRESS, "г. Минск, пл. Свободы 9");
+        startService(intent);
+    }
+
 
     private void displayChurches() {
         DataProvider.instance().requestChurches(new Receiver<List<Church>>() {
