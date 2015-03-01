@@ -2,14 +2,11 @@ package com.churches.by;
 
 import android.content.Intent;
 import android.location.Address;
-import android.os.Handler;
-import android.os.ResultReceiver;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -18,7 +15,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.vla3089.functional.Receiver;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
@@ -38,7 +34,6 @@ public class ChurchesMap extends ActionBarActivity implements OnMapReadyCallback
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     public ChurchesMap() {
-    }
 
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         SupportMapFragment mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
@@ -78,37 +73,9 @@ public class ChurchesMap extends ActionBarActivity implements OnMapReadyCallback
         super.onResume();
     }
 
-    private void updatePlaces(){
-        Location lastLoc = CAppliation.locationManager().lastKnownLocation();
-
-        if (lastLoc == null) {
-            return;
-        }
-
-        double lat = lastLoc.getLatitude();
-        double lng = lastLoc.getLongitude();
-
-        LatLng lastLatLng = new LatLng(lat, lng);
-
-        if(userMarker!=null) {
-            userMarker.remove();
-        }
-
-        Log.d("churches_map", "setting user location:" + lastLatLng.toString());
-
-        userMarker = mMap.addMarker(new MarkerOptions()
-                .position(lastLatLng)
-                .title("You are here")
-                .icon(BitmapDescriptorFactory.fromResource(userIcon))
-                .snippet("Your last recorded location"));
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(lastLatLng), 3000, null);
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        updatePlaces();
         displayChurches();
 
         LatLng sydney = new LatLng(-33.867, 151.206);
