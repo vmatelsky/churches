@@ -1,6 +1,5 @@
 package com.churches.by;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
@@ -12,7 +11,6 @@ import com.vla3089.functional.Receiver;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 
 import java.util.ArrayList;
@@ -28,12 +26,12 @@ public class ChurchesMap extends ActionBarActivity implements Map.OnMapInteracti
     public ChurchesMap() {
     }
 
-    @OptionsItem(R.id.action_settings)
+    /*@OptionsItem(R.id.action_settings)
     protected void startIntentService() {
         Intent intent = new Intent(this, FetchAddressIntentService.class);
         intent.putExtra(FetchAddressIntentService.REQUEST_ADDRESS, "г. Минск, пл. Свободы 9");
         startService(intent);
-    }
+    }*/
 
     @AfterViews
     protected void displayChurches() {

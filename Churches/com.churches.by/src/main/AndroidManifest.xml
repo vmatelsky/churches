@@ -17,6 +17,8 @@
         android:glEsVersion="0x00020000"
         android:required="true"/>
 
+    <meta-data android:name="android.app.searchable"
+        android:resource="@xml/searchable" />
 
     <permission
         android:name="com.churches.by.permission.MAPS_RECEIVE"
