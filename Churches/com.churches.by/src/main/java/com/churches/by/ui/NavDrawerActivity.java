@@ -6,6 +6,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.churches.by.R;
 import com.churches.by.ui.drawer.DrawerItem;
@@ -47,12 +49,11 @@ public class NavDrawerActivity extends ActionBarActivity
     public DrawerItem[] drawerItems() {
         ArrayList<DrawerItem> items = new ArrayList<>();
 
-        items.add(new DrawerRow(R.drawable.ic_drawer, "section 1"));
-        items.add(new DrawerRow(R.drawable.ic_drawer, "section 2"));
-        items.add(new DrawerRow(R.drawable.ic_drawer, "section 3"));
-        items.add(new DrawerRow(R.drawable.ic_drawer, "section 4"));
-        items.add(new DrawerRow(R.drawable.ic_drawer, "section 5"));
-        items.add(new DrawerRow(R.drawable.ic_drawer, "section 6"));
+        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_favorites)));
+        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_list)));
+        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_map)));
+        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_settings)));
+        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_about)));
 
         return items.toArray(new DrawerItem[0]);
     }
@@ -64,7 +65,17 @@ public class NavDrawerActivity extends ActionBarActivity
     }
 
     @Override
-    public void onFragmentInteraction(String id) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.search) {
+            Toast.makeText(this, item.getTitle() + " touched", Toast.LENGTH_LONG).show();
+            return true;
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+        Toast.makeText(this, id + " touched", Toast.LENGTH_LONG).show();
     }
 }
