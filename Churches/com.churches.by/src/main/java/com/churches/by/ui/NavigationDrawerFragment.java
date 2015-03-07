@@ -3,6 +3,7 @@ package com.churches.by.ui;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,12 +33,10 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = 0;
-    private View mDrawerView;
+    private int mCurrentSelectedPosition = DrawerItem.MAP.ordinal();
 
 
     public NavigationDrawerFragment() {
-        // FIXME: on app start supportActionBar title is not changed
     }
 
     @Override
@@ -45,20 +44,36 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION, 0);
+            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+        }
+
+        selectItem(mCurrentSelectedPosition);
+    }
+
+    private void selectItem(int position) {
+        mCurrentSelectedPosition = position;
+        if (mDrawerListView != null) {
+            mDrawerListView.setItemChecked(position, true);
+        }
+
+        closeDrawer();
+
+        if (mDrawerListView != null) {
+            notifyCallback((DrawerItem) mDrawerListView.getItemAtPosition(position));
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        View drawerView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
-        mDrawerListView = (ListView) mDrawerView.findViewById(R.id.drawer_items_list_view);
+        mDrawerListView = (ListView) drawerView.findViewById(R.id.drawer_items_list_view);
         mDrawerListView.setOnItemClickListener(this);
 
         mDrawerListView.setAdapter(new DrawerListAdapter(getActionBarActivity(), DrawerItem.values()));
-        return mDrawerView;
+        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        return drawerView;
     }
 
     /**
@@ -95,6 +110,12 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(drawerItem);
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        selectItem(mCurrentSelectedPosition);
     }
 
     @Override
@@ -140,10 +161,7 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mDrawerListView.setItemChecked(position, true);
-        mCurrentSelectedPosition = position;
-        notifyCallback((DrawerItem) mDrawerListView.getItemAtPosition(position));
-        closeDrawer();
+        selectItem(position);
     }
 
     public static interface NavigationDrawerCallbacks {

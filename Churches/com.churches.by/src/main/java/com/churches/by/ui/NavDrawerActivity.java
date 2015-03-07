@@ -17,7 +17,8 @@ import com.churches.by.ui.drawer.DrawerItem;
 import java.util.ArrayList;
 
 public class NavDrawerActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+        implements
+        NavigationDrawerFragment.NavigationDrawerCallbacks,
         ChurchListFragment.OnChurchListInteractionListener,
         Map.OnMapInteractionListener {
 
