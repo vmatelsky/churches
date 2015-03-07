@@ -20,7 +20,7 @@ import com.churches.by.R;
 import com.churches.by.ui.drawer.DrawerItem;
 import com.churches.by.ui.drawer.DrawerListAdapter;
 
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
@@ -37,6 +37,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     public NavigationDrawerFragment() {
+        // FIXME: on app start supportActionBar title is not changed
     }
 
     @Override
@@ -44,26 +45,19 @@ public class NavigationDrawerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION, 0);
         }
-
-        selectItem(mCurrentSelectedPosition);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mDrawerView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+
         mDrawerListView = (ListView) mDrawerView.findViewById(R.id.drawer_items_list_view);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
+        mDrawerListView.setOnItemClickListener(this);
 
         mDrawerListView.setAdapter(new DrawerListAdapter(getActionBarActivity(), DrawerItem.values()));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerView;
     }
 
@@ -91,16 +85,15 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
-        }
+    private void closeDrawer() {
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
+    }
+
+    private void notifyCallback(DrawerItem drawerItem) {
         if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
+            mCallbacks.onNavigationDrawerItemSelected(drawerItem);
         }
     }
 
@@ -145,7 +138,15 @@ public class NavigationDrawerFragment extends Fragment {
         return (ActionBarActivity)getActivity();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mDrawerListView.setItemChecked(position, true);
+        mCurrentSelectedPosition = position;
+        notifyCallback((DrawerItem) mDrawerListView.getItemAtPosition(position));
+        closeDrawer();
+    }
+
     public static interface NavigationDrawerCallbacks {
-        void onNavigationDrawerItemSelected(int position);
+        void onNavigationDrawerItemSelected(DrawerItem drawerItem);
     }
 }

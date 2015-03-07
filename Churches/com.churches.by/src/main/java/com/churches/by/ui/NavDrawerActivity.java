@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.churches.by.R;
+import com.churches.by.ui.drawer.DrawerItem;
 
 public class NavDrawerActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -34,7 +35,9 @@ public class NavDrawerActivity extends ActionBarActivity
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    public void onNavigationDrawerItemSelected(DrawerItem drawerItem) {
+        getSupportActionBar().setTitle(drawerItem.titleId());
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, ChurchListFragment.newInstance())
