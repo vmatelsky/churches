@@ -5,13 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.churches.by.R;
 
 public class DrawerListAdapter extends ArrayAdapter<DrawerItem> {
 
     private final LayoutInflater mInflater;
 
     public DrawerListAdapter(Context context, DrawerItem[] drawerItems) {
-        super(context, android.R.layout.simple_list_item_activated_1, drawerItems);
+        super(context, R.layout.row_item, drawerItems);
 
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -20,10 +24,20 @@ public class DrawerListAdapter extends ArrayAdapter<DrawerItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
 
+        DrawerItem item = getItem(position);
+
         if (convertView == null) {
-            view = getItem(position).getView(mInflater, null);
+            view = mInflater.inflate(R.layout.row_item, null);
         } else {
             view = convertView;
+        }
+
+        TextView row = (TextView) view.findViewById(R.id.row_text);
+        row.setText(item.titleId());
+
+        ImageView image = (ImageView) view.findViewById(R.id.row_image);
+        if (item.iconId() > 0) {
+            image.setImageResource(item.iconId());
         }
 
         return view;

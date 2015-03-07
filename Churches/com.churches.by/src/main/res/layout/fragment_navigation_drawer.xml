@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/header_title"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/navigation_drawer_header_height"
         android:gravity="center_vertical"
         android:background="?attr/colorPrimaryDark"
         android:text="Header"/>
@@ -20,7 +20,7 @@
         android:id="@+id/drawer_items_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#cccc"
+        android:background="@color/background_color"
         android:choiceMode="singleChoice"
         android:divider="@drawable/divider"
         android:dividerHeight="1dp" />

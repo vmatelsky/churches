@@ -62,7 +62,7 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        mDrawerListView.setAdapter(new DrawerListAdapter(getActionBarActivity(), mCallbacks.drawerItems()));
+        mDrawerListView.setAdapter(new DrawerListAdapter(getActionBarActivity(), DrawerItem.values()));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerView;
     }
@@ -147,7 +147,5 @@ public class NavigationDrawerFragment extends Fragment {
 
     public static interface NavigationDrawerCallbacks {
         void onNavigationDrawerItemSelected(int position);
-
-        DrawerItem[] drawerItems();
     }
 }

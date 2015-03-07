@@ -10,10 +10,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.churches.by.R;
-import com.churches.by.ui.drawer.DrawerItem;
-import com.churches.by.ui.drawer.DrawerRow;
-
-import java.util.ArrayList;
 
 public class NavDrawerActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -43,19 +39,6 @@ public class NavDrawerActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, ChurchListFragment.newInstance())
                 .commit();
-    }
-
-    @Override
-    public DrawerItem[] drawerItems() {
-        ArrayList<DrawerItem> items = new ArrayList<>();
-
-        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_favorites)));
-        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_list)));
-        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_map)));
-        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_settings)));
-        items.add(new DrawerRow(R.drawable.ic_drawer, getString(R.string.nav_drawer_about)));
-
-        return items.toArray(new DrawerItem[0]);
     }
 
     @Override
