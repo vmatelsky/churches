@@ -1,24 +1,24 @@
 package com.churches.by.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.churches.by.R;
-import com.churches.by.ui.dummy.DummyContent;
+import com.churches.by.data.DataProvider;
+import com.churches.by.data.model.Church;
 
-public class FavoritesFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class FavoritesFragment extends Fragment {
 
-    private AbsListView mListView;
+    private OnChurchInteractionListener mListener;
 
-    private ListAdapter mAdapter;
+    private RecyclerView mRecyclerView;
 
     public static FavoritesFragment newInstance() {
         FavoritesFragment fragment = new FavoritesFragment();
@@ -27,49 +27,52 @@ public class FavoritesFragment extends Fragment implements AbsListView.OnItemCli
         return fragment;
     }
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public FavoritesFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
-
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        mListView.setAdapter(mAdapter);
-
-        mListView.setOnItemClickListener(this);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.churches_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
 
         return view;
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        RecyclerView.Adapter mAdapter = new ChurchesAdapter(DataProvider.instance().churches(), new ChurchesAdapter.ViewHolder.ChurchesViewHolderClicks() {
+            @Override
+            public void onChurchClicked(Church church) {
+                if (mListener != null) {
+                    mListener.onChurchClicked(church);
+                }
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
     }
 
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
-    public void setEmptyText(CharSequence emptyText) {
-        View emptyView = mListView.getEmptyView();
-
-        if (emptyView instanceof TextView) {
-            ((TextView) emptyView).setText(emptyText);
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnChurchInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnChurchInteractionListener");
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 }

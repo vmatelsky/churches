@@ -2,25 +2,26 @@ package com.churches.by.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.churches.by.R;
+import com.churches.by.data.DataProvider;
+import com.churches.by.data.model.Church;
 
-import com.churches.by.ui.dummy.DummyContent;
+public class ChurchListFragment extends Fragment {
 
-public class ChurchListFragment extends Fragment implements AbsListView.OnItemClickListener {
+    private OnChurchInteractionListener mListener;
 
-    private OnChurchListInteractionListener mListener;
-    private AbsListView mListView;
-    private ListAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     public static ChurchListFragment newInstance() {
         ChurchListFragment fragment = new ChurchListFragment();
@@ -33,33 +34,40 @@ public class ChurchListFragment extends Fragment implements AbsListView.OnItemCl
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mAdapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_church, container, false);
-
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(this);
-
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.churches_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new ChurchesAdapter(DataProvider.instance().churches(), new ChurchesAdapter.ViewHolder.ChurchesViewHolderClicks() {
+            @Override
+            public void onChurchClicked(Church church) {
+                if (mListener != null) {
+                    mListener.onChurchClicked(church);
+                }
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnChurchListInteractionListener) activity;
+            mListener = (OnChurchInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnChurchListInteractionListener");
+                    + " must implement OnChurchInteractionListener");
         }
     }
 
@@ -67,26 +75,6 @@ public class ChurchListFragment extends Fragment implements AbsListView.OnItemCl
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        }
-    }
-
-    public void setEmptyText(CharSequence emptyText) {
-        View emptyView = mListView.getEmptyView();
-
-        if (emptyView instanceof TextView) {
-            ((TextView) emptyView).setText(emptyText);
-        }
-    }
-
-    public interface OnChurchListInteractionListener {
-        public void onFragmentInteraction(String id);
     }
 
 }

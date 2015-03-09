@@ -19,8 +19,7 @@ import java.util.ArrayList;
 public class NavDrawerActivity extends ActionBarActivity
         implements
         NavigationDrawerFragment.NavigationDrawerCallbacks,
-        ChurchListFragment.OnChurchListInteractionListener,
-        Map.OnMapInteractionListener {
+        OnChurchInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +92,7 @@ public class NavDrawerActivity extends ActionBarActivity
     }
 
     @Override
-    public void onFragmentInteraction(String id) {
-        Toast.makeText(this, id + " touched", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onChurchInfoClicked(Church church) {
+    public void onChurchClicked(Church church) {
         Toast.makeText(this, church.name() + " touched", Toast.LENGTH_LONG).show();
     }
 }

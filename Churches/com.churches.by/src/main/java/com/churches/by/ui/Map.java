@@ -26,7 +26,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
 
     private ArrayList<Church> displayableChurches;
 
-    private OnMapInteractionListener mListener;
+    private OnChurchInteractionListener mListener;
 
     private GoogleMap mMap;
 
@@ -65,7 +65,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnMapInteractionListener) activity;
+            mListener = (OnChurchInteractionListener) activity;
 
             SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
             if(mapFragment != null) {
@@ -73,7 +73,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
             }
 
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnMapInteractionListener");
+            throw new ClassCastException(activity.toString() + " must implement OnChurchInteractionListener");
         }
     }
 
@@ -116,9 +116,5 @@ public class Map extends Fragment implements OnMapReadyCallback {
                 .snippet("The most populous city in Australia.")
                 .position(sydney));
      }
-
-    public interface OnMapInteractionListener {
-        public void onChurchInfoClicked(Church church);
-    }
 
 }

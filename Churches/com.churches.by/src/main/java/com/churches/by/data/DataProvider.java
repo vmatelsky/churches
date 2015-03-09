@@ -21,7 +21,7 @@ public class DataProvider {
 
     }
 
-    public void requestChurches(Receiver<List<Church>> churchesList) {
+    public List<Church> churches() {
         Locale locale = Locale.US;
         Address address = new Address(locale);
         address.setLatitude(53.9031514);
@@ -30,7 +30,34 @@ public class DataProvider {
         address.setCountryName("Belarus");
         Church church = new Church("St. Smb", address);
 
-        churchesList.receive(Arrays.asList(church));
+        return Arrays.asList(church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church,
+                church);
+    }
+
+    public void requestChurches(Receiver<List<Church>> churchesList) {
+        churchesList.receive(churches());
     }
 
 }
