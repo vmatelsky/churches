@@ -11,26 +11,40 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.churches.by.R;
-import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChurchListFragment extends Fragment {
+
+    public static final String CHURCHES_LIST_KEY = "churches list key";
 
     private OnChurchInteractionListener mListener;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
+    private List<Church> churchesList = new ArrayList<>();
 
-    public static ChurchListFragment newInstance() {
+    public static ChurchListFragment newInstance(List<Church> churches) {
         ChurchListFragment fragment = new ChurchListFragment();
         Bundle args = new Bundle();
+        ArrayList<Church> arrayList = new ArrayList<>(churches);
+        args.putParcelableArrayList(CHURCHES_LIST_KEY, arrayList);
         fragment.setArguments(args);
         return fragment;
     }
 
     public ChurchListFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments().containsKey(CHURCHES_LIST_KEY)) {
+            churchesList = getArguments().getParcelableArrayList(CHURCHES_LIST_KEY);
+        }
     }
 
     @Override
@@ -46,10 +60,10 @@ public class ChurchListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new ChurchesAdapter(DataProvider.instance().churches(), new ChurchesAdapter.ViewHolder.ChurchesViewHolderClicks() {
+        RecyclerView.Adapter mAdapter = new ChurchesAdapter(churchesList, new ChurchesAdapter.ViewHolder.ChurchesViewHolderClicks() {
             @Override
             public void onChurchClicked(Church church) {
                 if (mListener != null) {

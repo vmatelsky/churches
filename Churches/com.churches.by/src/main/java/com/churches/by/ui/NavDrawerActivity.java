@@ -11,10 +11,20 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.churches.by.R;
+import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
 import com.churches.by.ui.drawer.DrawerItem;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.AndroidSubscriptions;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class NavDrawerActivity extends ActionBarActivity
         implements
@@ -56,10 +66,10 @@ public class NavDrawerActivity extends ActionBarActivity
 
         switch (drawerItem) {
             case FAVORITES:
-                fragment = FavoritesFragment.newInstance();
+                fragment = ChurchListFragment.newInstance(DataProvider.instance().favoritedChurches());
                 break;
             case LIST:
-                fragment = ChurchListFragment.newInstance();
+                fragment = ChurchListFragment.newInstance(DataProvider.instance().churches());
                 break;
             case MAP:
                 fragment = Map.newInstance(new ArrayList<Church>());

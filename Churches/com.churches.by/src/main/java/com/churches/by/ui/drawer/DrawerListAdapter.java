@@ -32,7 +32,7 @@ public class DrawerListAdapter extends ArrayAdapter<DrawerItem> {
             view = convertView;
         }
 
-        TextView row = (TextView) view.findViewById(R.id.row_text);
+        TextView row = (TextView) view.findViewById(R.id.row_title);
         row.setText(item.titleId());
 
         ImageView image = (ImageView) view.findViewById(R.id.row_image);

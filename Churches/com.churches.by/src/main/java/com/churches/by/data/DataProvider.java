@@ -56,6 +56,11 @@ public class DataProvider {
                 church);
     }
 
+    public List<Church> favoritedChurches() {
+        return churches();
+    }
+
+
     public void requestChurches(Receiver<List<Church>> churchesList) {
         churchesList.receive(churches());
     }
