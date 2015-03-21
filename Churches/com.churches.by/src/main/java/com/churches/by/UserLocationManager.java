@@ -6,16 +6,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import com.vla3089.functional.Receiver;
-import com.vla3089.functional.ReceiverSubscription;
-
 public class UserLocationManager implements CLocationManager, LocationListener {
 
     private static final int MILLISECONDS_PER_SECOND = 1000;
     private static final int MIN_DISTANCE = 0;
 
     private final LocationManager locationManager;
-    private final ReceiverSubscription<Location> locationReceiverSubscription = new ReceiverSubscription<>();
 
     public UserLocationManager(Context context) {
         locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
@@ -24,16 +20,6 @@ public class UserLocationManager implements CLocationManager, LocationListener {
     @Override
     public Location lastKnownLocation() {
         return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-    }
-
-    @Override
-    public void addNewLocationReceiver(Receiver<Location> onNewLocation) {
-        locationReceiverSubscription.subscribe(onNewLocation);
-    }
-
-    @Override
-    public void removeNewLocationReceiver(Receiver<Location> onNewLocation) {
-        locationReceiverSubscription.unSubscribe(onNewLocation);
     }
 
     @Override
@@ -57,7 +43,6 @@ public class UserLocationManager implements CLocationManager, LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        locationReceiverSubscription.receive(location);
     }
 
     @Override

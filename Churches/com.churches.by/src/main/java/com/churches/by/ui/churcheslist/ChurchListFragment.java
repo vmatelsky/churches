@@ -1,4 +1,4 @@
-package com.churches.by.ui;
+package com.churches.by.ui.churcheslist;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.churches.by.R;
 import com.churches.by.data.model.Church;
+import com.churches.by.ui.OnChurchInteractionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public class ChurchListFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        RecyclerView.Adapter mAdapter = new ChurchesAdapter(churchesList, new ChurchesAdapter.ViewHolder.ChurchesViewHolderClicks() {
+        RecyclerView.Adapter mAdapter = new ChurchesAdapter(churchesList, new ChurchListItemViewHolder.OnClickListener() {
             @Override
             public void onChurchClicked(Church church) {
                 if (mListener != null) {

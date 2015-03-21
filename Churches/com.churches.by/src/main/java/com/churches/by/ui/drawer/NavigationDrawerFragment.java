@@ -1,4 +1,4 @@
-package com.churches.by.ui;
+package com.churches.by.ui.drawer;
 
 import android.app.Activity;
 import android.content.res.Configuration;

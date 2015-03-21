@@ -7,4 +7,13 @@
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="navigation_drawer_header_height">100dp</dimen>
+
+    <!-- List attributes -->
+    <dimen name="listPreferredItemHeight">64dip</dimen>
+    <dimen name="listPreferredItemPadding">6dip</dimen>
+    <dimen name="listPreferredItemPaddingLeft">6dip</dimen>
+    <dimen name="listPreferredItemPaddingRight">6dip</dimen>
+    <dimen name="listPreferredItemPaddingStart">6dip</dimen>
+    <dimen name="listPreferredItemPaddingEnd">6dip</dimen>
+
 </resources>

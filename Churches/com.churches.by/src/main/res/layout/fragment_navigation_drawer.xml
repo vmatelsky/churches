@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:orientation="vertical"
-    tools:context="com.churches.by.ui.NavigationDrawerFragment">
+    tools:context="com.churches.by.ui.drawer.NavigationDrawerFragment">
 
     <TextView
         android:id="@+id/header_title"

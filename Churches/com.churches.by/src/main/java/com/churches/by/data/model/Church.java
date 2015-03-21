@@ -1,24 +1,32 @@
 package com.churches.by.data.model;
 
-import android.location.Address;
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
+
 public class Church implements Parcelable {
 
+    private final Bitmap smallIcon;
     private final String name;
     private final Address address;
 
-    public Church(String name, Address address) {
+    public Church(Bitmap smallIcon, String name, Address address) {
         this.name = name;
         this.address = address;
+        this.smallIcon = smallIcon;
     }
 
     public Church(Parcel in) {
+        smallIcon = in.readParcelable(Bitmap.class.getClassLoader());
         name = in.readString();
         address = in.readParcelable(Address.class.getClassLoader());
+    }
+
+    public Bitmap smallIcon() {
+        return smallIcon;
     }
 
     public String name() {
@@ -30,7 +38,7 @@ public class Church implements Parcelable {
     }
 
     public LatLng latLng() {
-        return new LatLng(address.getLatitude(), address.getLongitude());
+        return address.location();
     }
 
     @Override
@@ -40,6 +48,7 @@ public class Church implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(smallIcon, flags);
         dest.writeString(name);
         dest.writeParcelable(address, flags);
     }

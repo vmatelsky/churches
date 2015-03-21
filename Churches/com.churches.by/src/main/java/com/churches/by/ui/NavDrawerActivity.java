@@ -13,7 +13,9 @@ import android.widget.Toast;
 import com.churches.by.R;
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
+import com.churches.by.ui.churcheslist.ChurchListFragment;
 import com.churches.by.ui.drawer.DrawerItem;
+import com.churches.by.ui.drawer.NavigationDrawerFragment;
 
 import java.util.ArrayList;
 

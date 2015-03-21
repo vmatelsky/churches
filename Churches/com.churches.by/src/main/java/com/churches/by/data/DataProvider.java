@@ -1,9 +1,13 @@
 package com.churches.by.data;
 
-import android.location.Address;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import com.churches.by.CAppliation;
+import com.churches.by.R;
+import com.churches.by.data.model.Address;
 import com.churches.by.data.model.Church;
-import com.vla3089.functional.Receiver;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,13 +26,13 @@ public class DataProvider {
     }
 
     public List<Church> churches() {
-        Locale locale = Locale.US;
-        Address address = new Address(locale);
-        address.setLatitude(53.9031514);
-        address.setLongitude(27.5546604);
-        address.setCountryCode("BY");
-        address.setCountryName("Belarus");
-        Church church = new Church("St. Smb", address);
+        // Катедра
+//        address.setLatitude(53.9031514);
+//        address.setLongitude(27.5546604);
+
+        Address address = new Address("Беларусь", "Борисов", " ", new LatLng(54.2417, 28.5056));
+        Bitmap image = BitmapFactory.decodeResource(CAppliation.instance().getResources(), R.drawable.church_borisov1);
+        Church church = new Church(image, "Костёл Рождества Пресвятой Девы Марии", address);
 
         return Arrays.asList(church,
                 church,
@@ -58,11 +62,6 @@ public class DataProvider {
 
     public List<Church> favoritedChurches() {
         return churches();
-    }
-
-
-    public void requestChurches(Receiver<List<Church>> churchesList) {
-        churchesList.receive(churches());
     }
 
 }

@@ -2,22 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:gravity="center_vertical"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:background="?android:attr/selectableItemBackground"
-    android:orientation="horizontal">
+    android:background="?attr/selectableItemBackground"
+    android:minHeight="?attr/listPreferredItemHeightSmall"
+    android:orientation="horizontal"
+    android:padding="@dimen/listPreferredItemPadding"
+    android:textAppearance="?attr/textAppearanceListItemSmall">
 
-    <ImageView
-        android:id="@+id/church_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
+        card_view:cardCornerRadius="4dp">
 
-    <TextView
-        android:id="@+id/church_name"
+        <ImageView
+            android:id="@+id/church_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter" />
+
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="@dimen/listPreferredItemPadding">
+
+        <TextView
+            android:id="@+id/church_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/church_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>
