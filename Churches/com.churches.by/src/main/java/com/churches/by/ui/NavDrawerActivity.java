@@ -1,5 +1,6 @@
 package com.churches.by.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import com.churches.by.R;
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
 import com.churches.by.ui.churcheslist.ChurchListFragment;
+import com.churches.by.ui.details.DetailsActivity;
 import com.churches.by.ui.drawer.DrawerItem;
 import com.churches.by.ui.drawer.NavigationDrawerFragment;
 
@@ -96,6 +98,10 @@ public class NavDrawerActivity extends ActionBarActivity
 
     @Override
     public void onChurchClicked(Church church) {
-        Toast.makeText(this, church.name() + " touched", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(NavDrawerActivity.this, DetailsActivity.class);
+        Bundle b = new Bundle();
+        b.putParcelable(DetailsActivity.CHURCH_KEY, church);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 }

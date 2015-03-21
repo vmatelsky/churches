@@ -14,5 +14,9 @@
     <string name="nav_drawer_map">Map</string>
     <string name="nav_drawer_list">List</string>
     <string name="nav_drawer_favorites">Favorites</string>
+    <string name="title_activity_details">DetailsActivity</string>
+
+    <string name="no_church_passed">Unable to display details: church is not passed</string>
+    <string name="events_list_title">Parish events</string>
 
 </resources>

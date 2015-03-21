@@ -14,8 +14,10 @@
         android:layout_height="@dimen/navigation_drawer_header_height"
         android:gravity="center_vertical"
         android:background="?attr/colorPrimary"
-        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="@dimen/listPreferredItemPaddingEnd"
+        android:paddingRight="@dimen/listPreferredItemPaddingEnd"
+        android:paddingStart="@dimen/listPreferredItemPaddingStart"
+        android:paddingLeft="@dimen/listPreferredItemPaddingStart"
         android:text="Header"/>
 
     <ListView
