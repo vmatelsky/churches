@@ -1,11 +1,14 @@
 package com.churches.by.data.model;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ChurchDetails {
+public class ChurchDetails implements Parcelable {
 
     private final Church church;
     private final Bitmap image;
@@ -26,6 +29,15 @@ public class ChurchDetails {
         description = builder.description;
     }
 
+    public ChurchDetails(Parcel in) {
+        church = in.readParcelable(Church.class.getClassLoader());
+        image = in.readParcelable(Bitmap.class.getClassLoader());
+
+        events = new ArrayList<ChurchEvent>();
+        in.readTypedList(events, ChurchEvent.CREATOR);
+        description = in.readString();
+    }
+
     public Church church() {
         return church;
     }
@@ -41,6 +53,32 @@ public class ChurchDetails {
     public String description() {
         return description;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(church, flags);
+        dest.writeParcelable(image, flags);
+        dest.writeTypedList(events);
+        dest.writeString(description);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ChurchDetails> CREATOR = new Parcelable.Creator<ChurchDetails>() {
+        @Override
+        public ChurchDetails createFromParcel(Parcel in) {
+            return new ChurchDetails(in);
+        }
+
+        @Override
+        public ChurchDetails[] newArray(int size) {
+            return new ChurchDetails[size];
+        }
+    };
 
     public static final class Builder {
         private Church church;

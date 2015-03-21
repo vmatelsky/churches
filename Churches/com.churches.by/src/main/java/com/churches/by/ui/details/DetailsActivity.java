@@ -1,18 +1,21 @@
 package com.churches.by.ui.details;
 
-import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.churches.by.R;
+import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
+import com.churches.by.data.model.ChurchDetails;
+
+import rx.Observable;
+import rx.functions.Action1;
 
 public class DetailsActivity extends ActionBarActivity {
 
@@ -37,16 +40,24 @@ public class DetailsActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Palette generate = Palette.generate(church.smallIcon());
-        findViewById(R.id.church_image_frame).setBackgroundColor(generate.getLightMutedSwatch().getRgb());
+        Observable.OnSubscribe<ChurchDetails> detailsOnSubscribe = DataProvider.instance().churchDetails(church);
 
-        ImageView imageView = (ImageView) findViewById(R.id.detailed_church_image);
-        imageView.setImageBitmap(church.smallIcon());
+        Observable.create(detailsOnSubscribe)
+                .subscribe(new Action1<ChurchDetails>() {
+                    @Override
+                    public void call(ChurchDetails churchDetails) {
+                        Palette generate = Palette.generate(churchDetails.image());
+                        findViewById(R.id.church_image_frame).setBackgroundColor(generate.getLightMutedSwatch().getRgb());
 
-        TextView textView = (TextView) findViewById(R.id.parish_event_message);
-        textView.setTextColor(generate.getVibrantSwatch().getTitleTextColor());
+                        ImageView imageView = (ImageView) findViewById(R.id.detailed_church_image);
+                        imageView.setImageBitmap(churchDetails.image());
 
-        setTitle(church.name());
+                        TextView textView = (TextView) findViewById(R.id.parish_event_message);
+                        textView.setTextColor(generate.getVibrantSwatch().getTitleTextColor());
+
+                        setTitle(churchDetails.church().name());
+                    }
+                });
     }
 
     @Override
