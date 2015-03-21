@@ -33,7 +33,7 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = DrawerItem.MAP.ordinal();
+    private int mCurrentSelectedPosition = DrawerItem.LIST.ordinal();
 
 
     public NavigationDrawerFragment() {

@@ -20,6 +20,14 @@ public class ChurchEvent implements Parcelable {
         title = in.readString();
     }
 
+    public String title() {
+        return title;
+    }
+
+    public Date startDate() {
+        return startDate;
+    }
+
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<ChurchEvent> CREATOR = new Parcelable.Creator<ChurchEvent>() {
         @Override

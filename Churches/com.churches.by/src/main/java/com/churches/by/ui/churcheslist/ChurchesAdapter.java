@@ -15,14 +15,14 @@ public class ChurchesAdapter extends RecyclerView.Adapter<ChurchListItemViewHold
     private List<Church> dataSet;
     private final ChurchListItemViewHolder.OnClickListener listener;
 
-        public ChurchesAdapter(List<Church> dataSet, ChurchListItemViewHolder.OnClickListener listener) {
+    public ChurchesAdapter(List<Church> dataSet, ChurchListItemViewHolder.OnClickListener listener) {
         this.dataSet = dataSet;
         this.listener = listener;
     }
 
     @Override
     public ChurchListItemViewHolder onCreateViewHolder(ViewGroup parent,
-                                                         int viewType) {
+                                                       int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.church_list_row_item, parent, false);
         return new ChurchListItemViewHolder(v, listener);
