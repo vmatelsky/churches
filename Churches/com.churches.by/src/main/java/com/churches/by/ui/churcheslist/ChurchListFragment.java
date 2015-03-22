@@ -38,6 +38,8 @@ public class ChurchListFragment extends Fragment implements ChurchListItemViewHo
         @Override
         public void call(List<Church> churches) {
             churchesList = churches;
+            RecyclerView.Adapter mAdapter = new ChurchesAdapter(churchesList, ChurchListFragment.this);
+            mRecyclerView.setAdapter(mAdapter);
         }
     };
 
@@ -59,14 +61,6 @@ public class ChurchListFragment extends Fragment implements ChurchListItemViewHo
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        if (savedInstanceState != null) {
-            churchesList = savedInstanceState.getParcelableArrayList(CHURCHES_LIST_KEY);
-            churchesObtainAction.call(churchesList);
-        } else {
-            Observable.OnSubscribe<List<Church>> churchesObserver = DataProvider.instance().churches();
-            Observable.create(churchesObserver).subscribe(churchesObtainAction);
-        }
-
         return view;
     }
 
@@ -77,8 +71,13 @@ public class ChurchListFragment extends Fragment implements ChurchListItemViewHo
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        RecyclerView.Adapter mAdapter = new ChurchesAdapter(churchesList, this);
-        mRecyclerView.setAdapter(mAdapter);
+        if (savedInstanceState != null) {
+            churchesList = savedInstanceState.getParcelableArrayList(CHURCHES_LIST_KEY);
+            churchesObtainAction.call(churchesList);
+        } else {
+            Observable.OnSubscribe<List<Church>> churchesObserver = DataProvider.instance().churches();
+            Observable.create(churchesObserver).subscribe(churchesObtainAction);
+        }
     }
 
     @Override

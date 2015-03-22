@@ -65,7 +65,7 @@ public class NavDrawerActivity extends ToolbarActivity
                 fragment = ChurchListFragment.newInstance();
                 break;
             case MAP:
-                fragment = Map.newInstance(new ArrayList<Church>());
+                fragment = Map.newInstance();
                 break;
             case SETTINGS:
                 fragment = SettingsFragment.newInstance();

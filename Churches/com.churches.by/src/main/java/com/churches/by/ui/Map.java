@@ -2,12 +2,14 @@ package com.churches.by.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.churches.by.R;
+import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,29 +19,36 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import rx.Observable;
+import rx.functions.Action1;
 
 public class Map extends Fragment implements OnMapReadyCallback {
 
     private static final int churchIcon = R.drawable.purple_point;
     private static final String ARG_DISPLAYABLE_CHURCHES = "displayable churches";
 
-    private ArrayList<Church> displayableChurches;
+    private List<Church> displayableChurches;
+    private Action1<List<Church>> churchesObtainAction = new Action1<List<Church>>() {
+        @Override
+        public void call(List<Church> churches) {
+            displayableChurches = churches;
+
+            SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            if(mapFragment != null) {
+                mapFragment.getMapAsync(Map.this);
+            }
+        }
+    };
 
     private OnChurchInteractionListener mListener;
 
     private GoogleMap mMap;
 
-    public static Map newInstance(ArrayList<Church> displayableChurches) {
+    public static Map newInstance() {
         Map fragment = new Map();
-        fragment.setArguments(createArguments(displayableChurches));
         return fragment;
-    }
-
-    public static Bundle createArguments(ArrayList<Church> displayableChurches) {
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(ARG_DISPLAYABLE_CHURCHES, displayableChurches);
-        return args;
     }
 
     public Map() {
@@ -52,13 +61,23 @@ public class Map extends Fragment implements OnMapReadyCallback {
         return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (savedInstanceState != null) {
+            displayableChurches = savedInstanceState.getParcelableArrayList(ARG_DISPLAYABLE_CHURCHES);
+            churchesObtainAction.call(displayableChurches);
+        } else {
+            Observable.OnSubscribe<List<Church>> churchesObserver = DataProvider.instance().churches();
+            Observable.create(churchesObserver).subscribe(churchesObtainAction);
+        }
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            displayableChurches = getArguments().getParcelableArrayList(ARG_DISPLAYABLE_CHURCHES);
-        }
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArray(ARG_DISPLAYABLE_CHURCHES, displayableChurches.toArray(new Church[displayableChurches.size()]));
     }
 
     @Override
@@ -66,12 +85,6 @@ public class Map extends Fragment implements OnMapReadyCallback {
         super.onAttach(activity);
         try {
             mListener = (OnChurchInteractionListener) activity;
-
-            SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-            if(mapFragment != null) {
-                mapFragment.getMapAsync(this);
-            }
-
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnChurchInteractionListener");
         }
@@ -83,16 +96,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
         mListener = null;
     }
 
-    public void updateDisplayableChurches(ArrayList<Church> displayableChurches) {
-        this.displayableChurches = displayableChurches;
-
-        if (mMap != null) {
-            mMap.clear();
-            displayChurchesOnMap(this.displayableChurches);
-        }
-    }
-
-    private void displayChurchesOnMap(ArrayList<Church> displayableChurches) {
+    private void displayChurchesOnMap(List<Church> displayableChurches) {
          for (Church church : displayableChurches) {
             mMap.addMarker(new MarkerOptions()
                     .position(church.latLng())
@@ -105,16 +109,18 @@ public class Map extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         displayChurchesOnMap(this.displayableChurches);
-        
-        LatLng sydney = new LatLng(-33.867, 151.206);
 
         mMap.setMyLocationEnabled(true);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
 
-        mMap.addMarker(new MarkerOptions()
-                .title("Sydney")
-                .snippet("The most populous city in Australia.")
-                .position(sydney));
+//        LatLng sydney = new LatLng(-33.867, 151.206);
+//
+
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+//
+//        mMap.addMarker(new MarkerOptions()
+//                .title("Sydney")
+//                .snippet("The most populous city in Australia.")
+//                .position(sydney));
      }
 
 }
