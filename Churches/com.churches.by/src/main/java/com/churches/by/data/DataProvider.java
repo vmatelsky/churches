@@ -23,29 +23,35 @@ public class DataProvider {
 
     }
 
-    public List<Church> churches() {
-        return Arrays.asList(
-                DummyChurch.Borisov,
-                DummyChurch.Katedra,
-                DummyChurch.Borisov,
-                DummyChurch.Katedra,
-                DummyChurch.Borisov,
-                DummyChurch.Katedra,
-                DummyChurch.Borisov,
-                DummyChurch.Katedra,
-                DummyChurch.Borisov,
-                DummyChurch.Katedra,
-                DummyChurch.Borisov,
-                DummyChurch.Katedra,
-                DummyChurch.Borisov,
-                DummyChurch.Katedra,
-                DummyChurch.Borisov,
-                DummyChurch.Katedra,
-                DummyChurch.Borisov,
-                DummyChurch.Katedra);
+    public Observable.OnSubscribe<List<Church>> churches() {
+        return new Observable.OnSubscribe<List<Church>>() {
+            @Override
+            public void call(Subscriber<? super List<Church>> subscriber) {
+                subscriber.onNext(Arrays.asList(
+                        DummyChurch.Borisov,
+                        DummyChurch.Katedra,
+                        DummyChurch.Borisov,
+                        DummyChurch.Katedra,
+                        DummyChurch.Borisov,
+                        DummyChurch.Katedra,
+                        DummyChurch.Borisov,
+                        DummyChurch.Katedra,
+                        DummyChurch.Borisov,
+                        DummyChurch.Katedra,
+                        DummyChurch.Borisov,
+                        DummyChurch.Katedra,
+                        DummyChurch.Borisov,
+                        DummyChurch.Katedra,
+                        DummyChurch.Borisov,
+                        DummyChurch.Katedra,
+                        DummyChurch.Borisov,
+                        DummyChurch.Katedra));
+                subscriber.onCompleted();
+            }
+        };
     }
 
-    public List<Church> favoritedChurches() {
+    public Observable.OnSubscribe<List<Church>> favoritedChurches() {
         return churches();
     }
 

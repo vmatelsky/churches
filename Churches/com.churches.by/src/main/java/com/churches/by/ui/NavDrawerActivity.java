@@ -59,10 +59,10 @@ public class NavDrawerActivity extends ToolbarActivity
 
         switch (drawerItem) {
             case FAVORITES:
-                fragment = ChurchListFragment.newInstance(DataProvider.instance().favoritedChurches());
+                fragment = ChurchListFragment.newInstance();
                 break;
             case LIST:
-                fragment = ChurchListFragment.newInstance(DataProvider.instance().churches());
+                fragment = ChurchListFragment.newInstance();
                 break;
             case MAP:
                 fragment = Map.newInstance(new ArrayList<Church>());

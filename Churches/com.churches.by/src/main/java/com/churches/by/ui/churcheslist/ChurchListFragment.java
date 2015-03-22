@@ -12,13 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.churches.by.R;
+import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
+import com.churches.by.data.model.ChurchDetails;
 import com.churches.by.ui.OnChurchInteractionListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class ChurchListFragment extends Fragment {
+import rx.Observable;
+import rx.Observer;
+import rx.functions.Action1;
+
+public class ChurchListFragment extends Fragment implements ChurchListItemViewHolder.OnClickListener {
 
     public static final String CHURCHES_LIST_KEY = "churches list key";
 
@@ -27,26 +34,21 @@ public class ChurchListFragment extends Fragment {
     private RecyclerView mRecyclerView;
 
     private List<Church> churchesList = new ArrayList<>();
+    private Action1<List<Church>> churchesObtainAction = new Action1<List<Church>>() {
+        @Override
+        public void call(List<Church> churches) {
+            churchesList = churches;
+        }
+    };
 
-    public static ChurchListFragment newInstance(List<Church> churches) {
+    public static ChurchListFragment newInstance() {
         ChurchListFragment fragment = new ChurchListFragment();
         Bundle args = new Bundle();
-        ArrayList<Church> arrayList = new ArrayList<>(churches);
-        args.putParcelableArrayList(CHURCHES_LIST_KEY, arrayList);
         fragment.setArguments(args);
         return fragment;
     }
 
     public ChurchListFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments().containsKey(CHURCHES_LIST_KEY)) {
-            churchesList = getArguments().getParcelableArrayList(CHURCHES_LIST_KEY);
-        }
     }
 
     @Override
@@ -56,6 +58,15 @@ public class ChurchListFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.churches_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        if (savedInstanceState != null) {
+            churchesList = savedInstanceState.getParcelableArrayList(CHURCHES_LIST_KEY);
+            churchesObtainAction.call(churchesList);
+        } else {
+            Observable.OnSubscribe<List<Church>> churchesObserver = DataProvider.instance().churches();
+            Observable.create(churchesObserver).subscribe(churchesObtainAction);
+        }
+
         return view;
     }
 
@@ -66,15 +77,14 @@ public class ChurchListFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        RecyclerView.Adapter mAdapter = new ChurchesAdapter(churchesList, new ChurchListItemViewHolder.OnClickListener() {
-            @Override
-            public void onChurchClicked(Church church) {
-                if (mListener != null) {
-                    mListener.onChurchClicked(church);
-                }
-            }
-        });
+        RecyclerView.Adapter mAdapter = new ChurchesAdapter(churchesList, this);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArray(CHURCHES_LIST_KEY, churchesList.toArray(new Church[churchesList.size()]));
     }
 
     @Override
@@ -94,4 +104,10 @@ public class ChurchListFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onChurchClicked(Church church) {
+        if (mListener != null) {
+            mListener.onChurchClicked(church);
+        }
+    }
 }
