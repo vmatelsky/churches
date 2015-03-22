@@ -31,38 +31,36 @@ public class DataProvider {
     }
 
     public List<Church> churches() {
-        // Катедра
-//        address.setLatitude(53.9031514);
-//        address.setLongitude(27.5546604);
 
-        Address address = new Address("Беларусь", "Борисов", " ", new LatLng(54.2417, 28.5056));
+        Address address = new Address("Беларусь", "Барысаў", "ул. 3-ега Інтэрнацыянала, 28", new LatLng(54.241771, 28.505767));
         Bitmap image = BitmapFactory.decodeResource(CAppliation.instance().getResources(), R.drawable.church_borisov1);
-        Church church = new Church(image, "Костёл Рождества Пресвятой Девы Марии", address);
+        Church church = new Church(image, "Касцёл Нараджэння Найсвяцейшай Панны Марыі", address);
 
-        return Arrays.asList(church,
+        Address address1 = new Address("Беларусь", "Мінск", "пл. Свабоды, 9", new LatLng(53.9031514, 27.5546604));
+        Bitmap image1 = BitmapFactory.decodeResource(CAppliation.instance().getResources(), R.drawable.minsk_katedra);
+        Church church1 = new Church(image1, "Архікатэдра Імя Найсвяцейшай Панны Марыі", address1);
+
+        return Arrays.asList(
                 church,
+                church1,
                 church,
+                church1,
                 church,
+                church1,
                 church,
+                church1,
                 church,
+                church1,
                 church,
+                church1,
                 church,
+                church1,
                 church,
+                church1,
                 church,
+                church1,
                 church,
-                church,
-                church,
-                church,
-                church,
-                church,
-                church,
-                church,
-                church,
-                church,
-                church,
-                church,
-                church,
-                church);
+                church1);
     }
 
     public List<Church> favoritedChurches() {

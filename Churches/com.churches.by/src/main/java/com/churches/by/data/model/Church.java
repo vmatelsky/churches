@@ -42,6 +42,16 @@ public class Church implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (other == null) return false;
+        if (other == this) return true;
+        if (!(other instanceof Church))return false;
+
+        Church otherChurch = (Church)other;
+        return name().equals(otherChurch.name());
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
