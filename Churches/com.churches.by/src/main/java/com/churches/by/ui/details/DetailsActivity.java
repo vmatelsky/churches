@@ -2,6 +2,7 @@ package com.churches.by.ui.details;
 
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,17 +30,16 @@ public class DetailsActivity extends ToolbarActivity {
         @Override
         public void call(ChurchDetails churchDetails) {
             Palette generate = Palette.generate(churchDetails.image());
-            findViewById(R.id.church_image_frame).setBackgroundColor(generate.getLightMutedSwatch().getRgb());
+
+            CardView imageFrame = (CardView) findViewById(R.id.church_image_frame);
+            imageFrame.setCardBackgroundColor(generate.getLightMutedSwatch().getRgb());
 
             ImageView imageView = (ImageView) findViewById(R.id.detailed_church_image);
             imageView.setImageBitmap(churchDetails.image());
 
             TextView textView = (TextView) findViewById(R.id.parish_event_message);
 
-            Palette.Swatch vibrantSwatch = generate.getVibrantSwatch();
-            if (vibrantSwatch != null) {
-                textView.setTextColor(vibrantSwatch.getTitleTextColor());
-            }
+            textView.setTextColor(textColorFromPalette(generate));
 
             setTitle(churchDetails.church().name());
 
@@ -68,6 +68,18 @@ public class DetailsActivity extends ToolbarActivity {
 
         Observable.OnSubscribe<ChurchDetails> detailsOnSubscribe = DataProvider.instance().churchDetails(church);
         Observable.create(detailsOnSubscribe).subscribe(detailsObtainedAction);
+    }
+
+    private int textColorFromPalette(Palette palette) {
+        Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
+        Palette.Swatch vibrantLightSwatch = palette.getVibrantSwatch();
+
+        if (vibrantSwatch != null) {
+            return vibrantSwatch.getTitleTextColor();
+        } else if (vibrantLightSwatch != null) {
+            return vibrantLightSwatch.getTitleTextColor();
+        }
+        return Integer.MAX_VALUE;
     }
 
     @Override
