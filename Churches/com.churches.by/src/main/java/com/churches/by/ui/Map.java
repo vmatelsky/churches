@@ -109,18 +109,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         displayChurchesOnMap(this.displayableChurches);
-
         mMap.setMyLocationEnabled(true);
-
-//        LatLng sydney = new LatLng(-33.867, 151.206);
-//
-
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
-//
-//        mMap.addMarker(new MarkerOptions()
-//                .title("Sydney")
-//                .snippet("The most populous city in Australia.")
-//                .position(sydney));
      }
 
 }
