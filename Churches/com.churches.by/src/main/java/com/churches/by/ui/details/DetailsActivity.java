@@ -6,6 +6,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,12 @@ public class DetailsActivity extends ToolbarActivity {
 
         Observable.OnSubscribe<ChurchDetails> detailsOnSubscribe = DataProvider.instance().churchDetails(church);
         Observable.create(detailsOnSubscribe).subscribe(detailsObtainedAction);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.details_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private int textColorFromPalette(Palette palette) {

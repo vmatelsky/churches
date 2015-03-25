@@ -15,7 +15,7 @@ public class DrawerListAdapter extends ArrayAdapter<DrawerItem> {
     private final LayoutInflater mInflater;
 
     public DrawerListAdapter(Context context, DrawerItem[] drawerItems) {
-        super(context, R.layout.row_item, drawerItems);
+        super(context, R.layout.drawer_row_item, drawerItems);
 
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -27,7 +27,7 @@ public class DrawerListAdapter extends ArrayAdapter<DrawerItem> {
         DrawerItem item = getItem(position);
 
         if (convertView == null) {
-            view = mInflater.inflate(R.layout.row_item, null);
+            view = mInflater.inflate(R.layout.drawer_row_item, null);
         } else {
             view = convertView;
         }

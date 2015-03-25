@@ -23,7 +23,9 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class ChurchListFragment extends Fragment implements ChurchListItemViewHolder.OnClickListener {
 
@@ -76,7 +78,10 @@ public class ChurchListFragment extends Fragment implements ChurchListItemViewHo
             churchesObtainAction.call(churchesList);
         } else {
             Observable.OnSubscribe<List<Church>> churchesObserver = DataProvider.instance().churches();
-            Observable.create(churchesObserver).subscribe(churchesObtainAction);
+            Observable.create(churchesObserver)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(churchesObtainAction);
         }
     }
 

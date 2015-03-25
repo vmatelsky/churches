@@ -4,10 +4,10 @@ import com.churches.by.R;
 
 public enum DrawerItem {
 
-    FAVORITES(0, R.string.nav_drawer_favorites),
-    LIST(0, R.string.nav_drawer_list),
-    MAP(0, R.string.nav_drawer_map),
-    SETTINGS(0, R.string.nav_drawer_settings),
+    FAVORITES(R.drawable.ic_action_star_10, R.string.nav_drawer_favorites),
+    LIST(R.drawable.ic_action_list_2, R.string.nav_drawer_list),
+    MAP(R.drawable.ic_action_globe, R.string.nav_drawer_map),
+    SETTINGS(R.drawable.ic_action_settings, R.string.nav_drawer_settings),
     ABOUT(0, R.string.nav_drawer_about);
 
     DrawerItem(int iconId, int titleId) {

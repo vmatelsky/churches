@@ -3,6 +3,7 @@
 
     <string name="app_name">Churches</string>
     <string name="search_title">Search</string>
+    <string name="calendar_title">Calendar</string>
     <string name="search_hint">Search hint</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

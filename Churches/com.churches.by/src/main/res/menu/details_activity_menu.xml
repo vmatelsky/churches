@@ -4,9 +4,8 @@
     tools:context=".ChurchesMap">
 
     <item
-        android:id="@+id/search"
-        android:actionViewClass="android.widget.SearchView"
-        android:icon="@drawable/ic_action_search"
+        android:id="@+id/calendar"
+        android:icon="@drawable/ic_action_calendar_month"
         android:title="@string/search_title"
         app:showAsAction="ifRoom" />
 
