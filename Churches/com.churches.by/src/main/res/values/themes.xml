@@ -19,5 +19,8 @@
 
     <style name="ThemeOverlay.Churches.ActionBar" parent="ThemeOverlay.AppCompat">
         <item name="android:textColorPrimary">@color/toolbar_text_color</item>
+
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="actionMenuTextColor">@color/toolbar_text_color</item>
     </style>
 </resources>
