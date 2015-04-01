@@ -4,15 +4,18 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.churches.by.ui.Map;
+import com.churches.by.ui.NavDrawerActivity;
+import com.churches.by.ui.churcheslist.ChurchListFragment;
 import com.robotium.solo.Solo;
 import com.squareup.spoon.Spoon;
 import android.widget.Button;
 
-public class SampleAppInstrumentTest extends ActivityInstrumentationTestCase2<ChurchesMap_> {
+public class SampleAppInstrumentTest extends ActivityInstrumentationTestCase2<NavDrawerActivity> {
     private Solo solo;
 
     public SampleAppInstrumentTest() {
-        super(ChurchesMap_.class);
+        super(NavDrawerActivity.class);
     }
 
     @Override

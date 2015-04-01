@@ -14,18 +14,11 @@ import android.view.ViewGroup;
 import com.churches.by.R;
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
-import com.churches.by.data.model.ChurchDetails;
+import com.churches.by.data.model.receivers.ChurchesReceiver;
 import com.churches.by.ui.OnChurchInteractionListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class ChurchListFragment extends Fragment implements ChurchListItemViewHolder.OnClickListener {
 
@@ -36,7 +29,7 @@ public class ChurchListFragment extends Fragment implements ChurchListItemViewHo
     private RecyclerView mRecyclerView;
 
     private List<Church> churchesList = new ArrayList<>();
-    private Action1<List<Church>> churchesObtainAction = new Action1<List<Church>>() {
+    private ChurchesReceiver churchesObtainAction = new ChurchesReceiver() {
         @Override
         public void call(List<Church> churches) {
             churchesList = churches;
@@ -77,11 +70,7 @@ public class ChurchListFragment extends Fragment implements ChurchListItemViewHo
             churchesList = savedInstanceState.getParcelableArrayList(CHURCHES_LIST_KEY);
             churchesObtainAction.call(churchesList);
         } else {
-            Observable.OnSubscribe<List<Church>> churchesObserver = DataProvider.instance().churches();
-            Observable.create(churchesObserver)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(churchesObtainAction);
+            DataProvider.instance().churchesAsync(churchesObtainAction);
         }
     }
 

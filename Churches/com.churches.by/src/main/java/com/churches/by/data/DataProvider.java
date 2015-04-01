@@ -4,12 +4,15 @@ import com.churches.by.data.dummy.DummyChurch;
 import com.churches.by.data.dummy.DummyChurchDetails;
 import com.churches.by.data.model.Church;
 import com.churches.by.data.model.ChurchDetails;
+import com.churches.by.data.model.receivers.ChurchesReceiver;
 
 import java.util.Arrays;
 import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class DataProvider {
 
@@ -23,35 +26,46 @@ public class DataProvider {
 
     }
 
-    public Observable.OnSubscribe<List<Church>> churches() {
+    public List<Church> churches() {
+        return Arrays.asList(
+                DummyChurch.Borisov,
+                DummyChurch.Katedra,
+                DummyChurch.Borisov,
+                DummyChurch.Katedra,
+                DummyChurch.Borisov,
+                DummyChurch.Katedra,
+                DummyChurch.Borisov,
+                DummyChurch.Katedra,
+                DummyChurch.Borisov,
+                DummyChurch.Katedra,
+                DummyChurch.Borisov,
+                DummyChurch.Katedra,
+                DummyChurch.Borisov,
+                DummyChurch.Katedra,
+                DummyChurch.Borisov,
+                DummyChurch.Katedra,
+                DummyChurch.Borisov,
+                DummyChurch.Katedra);
+    }
+
+    public void churchesAsync(ChurchesReceiver churchesReceiver) {
+//        Observable.create(createChurchesPerformer())
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(churchesReceiver);
+    }
+
+    private Observable.OnSubscribe<List<Church>> createChurchesPerformer() {
         return new Observable.OnSubscribe<List<Church>>() {
             @Override
             public void call(Subscriber<? super List<Church>> subscriber) {
-                subscriber.onNext(Arrays.asList(
-                        DummyChurch.Borisov,
-                        DummyChurch.Katedra,
-                        DummyChurch.Borisov,
-                        DummyChurch.Katedra,
-                        DummyChurch.Borisov,
-                        DummyChurch.Katedra,
-                        DummyChurch.Borisov,
-                        DummyChurch.Katedra,
-                        DummyChurch.Borisov,
-                        DummyChurch.Katedra,
-                        DummyChurch.Borisov,
-                        DummyChurch.Katedra,
-                        DummyChurch.Borisov,
-                        DummyChurch.Katedra,
-                        DummyChurch.Borisov,
-                        DummyChurch.Katedra,
-                        DummyChurch.Borisov,
-                        DummyChurch.Katedra));
+                subscriber.onNext(churches());
                 subscriber.onCompleted();
             }
         };
     }
 
-    public Observable.OnSubscribe<List<Church>> favoritedChurches() {
+    public List<Church> favoritedChurches() {
         return churches();
     }
 
@@ -68,5 +82,9 @@ public class DataProvider {
                 subscriber.onCompleted();
             }
         };
+    }
+
+    public void favoritedChurchesAsync(ChurchesReceiver churchesReceiver) {
+        churchesAsync(churchesReceiver);
     }
 }

@@ -11,18 +11,14 @@ import android.view.ViewGroup;
 import com.churches.by.R;
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.churches.by.data.model.receivers.ChurchesReceiver;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
-
-import rx.Observable;
-import rx.functions.Action1;
 
 public class Map extends Fragment implements OnMapReadyCallback {
 
@@ -30,7 +26,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
     private static final String ARG_DISPLAYABLE_CHURCHES = "displayable churches";
 
     private List<Church> displayableChurches;
-    private Action1<List<Church>> churchesObtainAction = new Action1<List<Church>>() {
+    private ChurchesReceiver churchesObtainAction = new ChurchesReceiver() {
         @Override
         public void call(List<Church> churches) {
             displayableChurches = churches;
@@ -69,8 +65,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
             displayableChurches = savedInstanceState.getParcelableArrayList(ARG_DISPLAYABLE_CHURCHES);
             churchesObtainAction.call(displayableChurches);
         } else {
-            Observable.OnSubscribe<List<Church>> churchesObserver = DataProvider.instance().churches();
-            Observable.create(churchesObserver).subscribe(churchesObtainAction);
+            DataProvider.instance().churchesAsync(churchesObtainAction);
         }
     }
 
