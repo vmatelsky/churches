@@ -1,15 +1,10 @@
 package com.churches.by;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import com.churches.by.ui.Map;
 import com.churches.by.ui.NavDrawerActivity;
-import com.churches.by.ui.churcheslist.ChurchListFragment;
 import com.robotium.solo.Solo;
 import com.squareup.spoon.Spoon;
-import android.widget.Button;
 
 public class SampleAppInstrumentTest extends ActivityInstrumentationTestCase2<NavDrawerActivity> {
     private Solo solo;

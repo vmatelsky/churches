@@ -58,9 +58,6 @@ public class NavDrawerActivity extends AppCompatActivity
             case LIST:
                 fragment = ChurchListFragment.newInstance();
                 break;
-            case MAP:
-                fragment = Map.newInstance();
-                break;
             case SETTINGS:
                 fragment = SettingsFragment.newInstance();
                 break;
@@ -90,7 +87,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     @Override
     public void onChurchClicked(Church church) {
-        Intent intent = new Intent(NavDrawerActivity.this, DetailsActivity.class);
+        Intent intent = new Intent(this, DetailsActivity.class);
         Bundle b = new Bundle();
         b.putParcelable(DetailsActivity.CHURCH_KEY, church);
         intent.putExtras(b);

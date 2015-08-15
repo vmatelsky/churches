@@ -49,10 +49,10 @@ public class DataProvider {
     }
 
     public void churchesAsync(ChurchesReceiver churchesReceiver) {
-//        Observable.create(createChurchesPerformer())
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(churchesReceiver);
+        Observable.create(createChurchesPerformer())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(churchesReceiver);
     }
 
     private Observable.OnSubscribe<List<Church>> createChurchesPerformer() {
