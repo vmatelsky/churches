@@ -38,6 +38,11 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     @Override
+    public void onAboutClicked() {
+        new AboutDialog().show(getSupportFragmentManager(), "about");
+    }
+
+    @Override
     public void onScheduleClicked(ChurchDetails details) {
         final ScheduleFragment fragment = ScheduleFragment.newInstance(details);
         FragmentManager fragmentManager = getSupportFragmentManager();
