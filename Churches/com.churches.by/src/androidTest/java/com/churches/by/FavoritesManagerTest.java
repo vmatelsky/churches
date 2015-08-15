@@ -1,8 +1,5 @@
 package com.churches.by;
 
-import android.test.InstrumentationTestCase;
-
-import com.churches.by.data.FavoritesManager;
 import com.churches.by.data.model.Church;
 import com.churches.by.data.model.receivers.ChurchesReceiver;
 import com.churches.by.helpers.TestCaseWithMockito;

@@ -1,16 +1,20 @@
 package com.churches.by.ui.details;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.churches.by.R;
 import com.churches.by.data.DataProvider;
@@ -20,11 +24,19 @@ import com.churches.by.data.model.ChurchDetails;
 import rx.Observable;
 import rx.functions.Action1;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsFragment extends Fragment {
 
     public static final String CHURCH_KEY = "church key";
 
-    private Church church;
+    public static DetailsFragment newInstance(Church church) {
+        final Bundle params = new Bundle();
+        params.putParcelable(CHURCH_KEY, church);
+
+        final DetailsFragment fragment = new DetailsFragment();
+        fragment.setArguments(params);
+        return fragment;
+    }
+
     private RecyclerView recyclerView;
 
     private final Action1<ChurchDetails> detailsObtainedAction = new Action1<ChurchDetails>() {
@@ -42,7 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
 
             textView.setTextColor(textColorFromPalette(generate));
 
-            setTitle(churchDetails.church().name());
+            getActivity().setTitle(churchDetails.church().name());
 
             recyclerView.setHasFixedSize(true);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -50,31 +62,39 @@ public class DetailsActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
-
-        Bundle extras = getIntent().getExtras();
-        if (extras.containsKey(CHURCH_KEY)) {
-            church = extras.getParcelable(CHURCH_KEY);
-        } else {
-            Toast.makeText(this, R.string.no_church_passed, Toast.LENGTH_LONG).show();
-            onBackPressed();
-        }
-
-        recyclerView = (RecyclerView) findViewById(R.id.church_events_recycler_view);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-
-
+    private View findViewById(int viewId) {
+        return getActivity().findViewById(viewId);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.details_activity_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_details, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.church_events_recycler_view);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        final Church church = getArguments().getParcelable(CHURCH_KEY);
+        Observable.OnSubscribe<ChurchDetails> detailsOnSubscribe = DataProvider.instance().churchDetails(church);
+        Observable.create(detailsOnSubscribe).subscribe(detailsObtainedAction);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.details_activity_menu, menu);
     }
 
     private int textColorFromPalette(Palette palette) {
