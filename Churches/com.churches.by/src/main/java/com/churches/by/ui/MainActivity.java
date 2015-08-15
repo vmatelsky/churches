@@ -11,14 +11,14 @@ import com.churches.by.ui.churcheslist.ChurchListFragment;
 import com.churches.by.ui.details.DetailsFragment;
 import com.churches.by.ui.schedule.ScheduleFragment;
 
-public class NavDrawerActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements OnChurchInteractionListener,
         DetailsFragment.Listener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nav_drawer);
+        setContentView(R.layout.activity_main);
 
         final ChurchListFragment fragment = ChurchListFragment.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();

@@ -2,15 +2,15 @@ package com.churches.by;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.churches.by.ui.NavDrawerActivity;
+import com.churches.by.ui.MainActivity;
 import com.robotium.solo.Solo;
 import com.squareup.spoon.Spoon;
 
-public class SampleAppInstrumentTest extends ActivityInstrumentationTestCase2<NavDrawerActivity> {
+public class SampleAppInstrumentTest extends ActivityInstrumentationTestCase2<MainActivity> {
     private Solo solo;
 
     public SampleAppInstrumentTest() {
-        super(NavDrawerActivity.class);
+        super(MainActivity.class);
     }
 
     @Override
