@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.churches.by.R;
-import com.churches.by.ui.drawer.DrawerItem;
-import com.churches.by.ui.drawer.DrawerListAdapter;
 
 public class NavigationDrawerFragment extends Fragment implements AdapterView.OnItemClickListener {
 
@@ -78,17 +74,16 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
 
     /**
      * Users of this fragment must call this method to set up the navigation drawer interactions.
-     *
-     * @param fragmentId   The android:id of this fragment in its activity's layout.
+     *  @param fragmentId   The android:id of this fragment in its activity's layout.
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
-    public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
+    public void setUp(int fragmentId, DrawerLayout drawerLayout) {
         mFragmentContainerView = getActionBarActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        mDrawerToggle = new ActionBarDrawerToggle(getActionBarActivity(), mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerToggle = new ActionBarDrawerToggle(getActionBarActivity(), mDrawerLayout, R.drawable.ic_drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         mDrawerLayout.post(new Runnable() {
             @Override
@@ -155,8 +150,8 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
         return super.onOptionsItemSelected(item);
     }
 
-    private ActionBarActivity getActionBarActivity() {
-        return (ActionBarActivity)getActivity();
+    private Activity getActionBarActivity() {
+        return getActivity();
     }
 
     @Override
@@ -164,7 +159,7 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
         selectItem(position);
     }
 
-    public static interface NavigationDrawerCallbacks {
+    public interface NavigationDrawerCallbacks {
         void onNavigationDrawerItemSelected(DrawerItem drawerItem);
     }
 }

@@ -1,6 +1,7 @@
 package com.churches.by.ui.details;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,12 +16,11 @@ import com.churches.by.R;
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
 import com.churches.by.data.model.ChurchDetails;
-import com.churches.by.ui.ToolbarActivity;
 
 import rx.Observable;
 import rx.functions.Action1;
 
-public class DetailsActivity extends ToolbarActivity {
+public class DetailsActivity extends ActionBarActivity {
 
     public static final String CHURCH_KEY = "church key";
 
@@ -53,6 +53,7 @@ public class DetailsActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_details);
 
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey(CHURCH_KEY)) {
@@ -87,10 +88,5 @@ public class DetailsActivity extends ToolbarActivity {
             return vibrantLightSwatch.getTitleTextColor();
         }
         return Integer.MAX_VALUE;
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_details;
     }
 }

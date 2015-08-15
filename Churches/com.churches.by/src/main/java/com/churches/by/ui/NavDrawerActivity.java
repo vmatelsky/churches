@@ -5,21 +5,19 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.churches.by.R;
-import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
 import com.churches.by.ui.churcheslist.ChurchListFragment;
 import com.churches.by.ui.details.DetailsActivity;
 import com.churches.by.ui.drawer.DrawerItem;
 import com.churches.by.ui.drawer.NavigationDrawerFragment;
 
-import java.util.ArrayList;
-
-public class NavDrawerActivity extends ToolbarActivity
+public class NavDrawerActivity extends ActionBarActivity
         implements
         NavigationDrawerFragment.NavigationDrawerCallbacks,
         OnChurchInteractionListener {
@@ -27,19 +25,15 @@ public class NavDrawerActivity extends ToolbarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_nav_drawer);
 
         NavigationDrawerFragment navigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         navigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout),
-                toolbar());
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_nav_drawer;
+                (DrawerLayout) findViewById(R.id.drawer_layout)
+        );
     }
 
     @Override
