@@ -91,9 +91,9 @@ public class ChurchListFragment extends Fragment implements ChurchListItemViewHo
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_about) {
+        if (item.getItemId() == R.id.menu_settings) {
             if (mListener != null) {
-                mListener.onAboutClicked();
+                mListener.onSettingsClicked();
             }
         }
         return super.onOptionsItemSelected(item);

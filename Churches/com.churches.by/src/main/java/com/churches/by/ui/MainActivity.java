@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAboutClicked() {
+    public void onSettingsClicked() {
         new AboutDialog().show(getSupportFragmentManager(), "about");
     }
 
