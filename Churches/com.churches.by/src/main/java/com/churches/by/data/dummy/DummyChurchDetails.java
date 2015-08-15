@@ -16,17 +16,17 @@ public class DummyChurchDetails {
             BitmapFactory.decodeResource(CAppliation.instance().getResources(), R.drawable.church_borisov2),
             Arrays.asList(DummyChurchEvent.Dummy, DummyChurchEvent.Dummy, DummyChurchEvent.Dummy),
             Arrays.asList(
-                    new ScheduleItem("Св. Імша ў у нядзелю — 09.00, 11.00 (польск.), 16.30 (для моладзі), 18.00"),
-                    new ScheduleItem("Св. Імша ў будні — 18.00, сб — 09.00, 18.00")),
+                    new ScheduleItem("нядзеля: 09.00, 11.00 (польск.), 16.30 (для моладзі), 18.00"),
+                    new ScheduleItem("будні: 18.00, сб — 09.00, 18.00")),
             "Парафія існуе з 1642 г.; касцёл 1806–1830 гг. быў зачынены ў 1937 г., парафія адроджана ў 1989 г., касцёл адноўлены ў 1990 г.");
 
     public static ChurchDetails Katedra = new ChurchDetails(
             DummyChurch.Katedra,
             BitmapFactory.decodeResource(CAppliation.instance().getResources(), R.drawable.katedra_big),
             Arrays.asList(DummyChurchEvent.Dummy, DummyChurchEvent.Dummy, DummyChurchEvent.Dummy),
-            Arrays.asList(new ScheduleItem("Св. Імша ў нядзелю — 08.15, 10.00, 11.30, 13.00, 18.30"),
-                    new ScheduleItem("Св. Імша ў будні — 07.15, 08.00, 18.30"),
-                    new ScheduleItem("Св. Імша ва ўрачыстасці — 07.15, 8.00, 12.00, 18.30")),
+            Arrays.asList(new ScheduleItem("нядзеля: 08.15, 10.00, 11.30, 13.00, 18.30"),
+                    new ScheduleItem("будні: 07.15, 08.00, 18.30"),
+                    new ScheduleItem("урачыстасці: 07.15, 8.00, 12.00, 18.30")),
             "31 лiпеня 1700 – заснаванне касцёла айцамi езуiтамi.\n" +
                     "\n" +
                     "16 сакавiка 1710 – кансэкрацыя касцёла, якую здзейснiў Вiленскi бiскуп Канстанты Казiмiр Бжастоўскi.\n" +

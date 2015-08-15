@@ -1,5 +1,6 @@
 package com.churches.by.ui.details;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,6 +30,10 @@ public class DetailsFragment extends Fragment {
 
     public static final String CHURCH_KEY = "church key";
 
+    public interface Listener {
+        void onScheduleClicked(ChurchDetails details);
+    }
+
     public static DetailsFragment newInstance(Church church) {
         final Bundle params = new Bundle();
         params.putParcelable(CHURCH_KEY, church);
@@ -38,10 +44,14 @@ public class DetailsFragment extends Fragment {
     }
 
     private RecyclerView recyclerView;
+    public ChurchDetails churchDetails;
+    private Listener listener;
 
     private final Action1<ChurchDetails> detailsObtainedAction = new Action1<ChurchDetails>() {
+
         @Override
         public void call(ChurchDetails churchDetails) {
+            DetailsFragment.this.churchDetails = churchDetails;
             Palette generate = Palette.generate(churchDetails.image());
 
             CardView imageFrame = (CardView) findViewById(R.id.church_image_frame);
@@ -64,6 +74,18 @@ public class DetailsFragment extends Fragment {
 
     private View findViewById(int viewId) {
         return getActivity().findViewById(viewId);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        listener = (Listener) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 
     @Override
@@ -95,6 +117,14 @@ public class DetailsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.details_activity_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.calendar) {
+            listener.onScheduleClicked(churchDetails);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private int textColorFromPalette(Palette palette) {

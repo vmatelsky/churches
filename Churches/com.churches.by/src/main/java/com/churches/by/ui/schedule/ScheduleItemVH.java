@@ -17,7 +17,7 @@ public class ScheduleItemVH extends RecyclerView.ViewHolder {
     }
 
     public void bindChurchEvent(int position, ScheduleItem item) {
-        final String string = textView.getContext().getString(R.string.schedule_item_template, position, item.item());
+        final String string = textView.getContext().getString(R.string.schedule_item_template, position + 1, item.item());
         textView.setText(string);
     }
 }

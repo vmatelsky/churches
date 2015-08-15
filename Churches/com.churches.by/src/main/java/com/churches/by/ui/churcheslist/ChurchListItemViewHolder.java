@@ -40,7 +40,7 @@ public class ChurchListItemViewHolder extends RecyclerView.ViewHolder implements
         }
     }
 
-    public static interface OnClickListener {
-        public void onChurchClicked(Church church);
+    public interface OnClickListener {
+        void onChurchClicked(Church church);
     }
 }
