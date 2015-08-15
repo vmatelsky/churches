@@ -2,6 +2,7 @@ package com.churches.by.ui.details;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,7 +21,7 @@ import com.churches.by.data.model.ChurchDetails;
 import rx.Observable;
 import rx.functions.Action1;
 
-public class DetailsActivity extends ActionBarActivity {
+public class DetailsActivity extends AppCompatActivity {
 
     public static final String CHURCH_KEY = "church key";
 

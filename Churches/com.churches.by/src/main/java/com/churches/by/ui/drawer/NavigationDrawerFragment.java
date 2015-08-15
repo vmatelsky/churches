@@ -1,13 +1,17 @@
 package com.churches.by.ui.drawer;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,23 +71,28 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
         mDrawerListView = (ListView) drawerView.findViewById(R.id.drawer_items_list_view);
         mDrawerListView.setOnItemClickListener(this);
 
-        mDrawerListView.setAdapter(new DrawerListAdapter(getActionBarActivity(), DrawerItem.values()));
+        mDrawerListView.setAdapter(new DrawerListAdapter(getActivity(), DrawerItem.values()));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return drawerView;
     }
 
     /**
      * Users of this fragment must call this method to set up the navigation drawer interactions.
-     *  @param fragmentId   The android:id of this fragment in its activity's layout.
+     *
+     * @param fragmentId   The android:id of this fragment in its activity's layout.
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
-        mFragmentContainerView = getActionBarActivity().findViewById(fragmentId);
+        mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        mDrawerToggle = new ActionBarDrawerToggle(getActionBarActivity(), mDrawerLayout, R.drawable.ic_drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.drawable.ic_drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         mDrawerLayout.post(new Runnable() {
             @Override
@@ -150,8 +159,8 @@ public class NavigationDrawerFragment extends Fragment implements AdapterView.On
         return super.onOptionsItemSelected(item);
     }
 
-    private Activity getActionBarActivity() {
-        return getActivity();
+    private ActionBar getActionBar() {
+        return ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -17,7 +17,7 @@ import com.churches.by.ui.details.DetailsActivity;
 import com.churches.by.ui.drawer.DrawerItem;
 import com.churches.by.ui.drawer.NavigationDrawerFragment;
 
-public class NavDrawerActivity extends ActionBarActivity
+public class NavDrawerActivity extends AppCompatActivity
         implements
         NavigationDrawerFragment.NavigationDrawerCallbacks,
         OnChurchInteractionListener {
