@@ -6,10 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.churches.by.R;
 import com.churches.by.data.model.Church;
-import com.churches.by.data.model.ChurchDetails;
 import com.churches.by.ui.churcheslist.ChurchListFragment;
 import com.churches.by.ui.details.DetailsFragment;
-import com.churches.by.ui.schedule.ScheduleFragment;
 
 public class MainActivity extends AppCompatActivity
         implements OnChurchInteractionListener,
@@ -42,13 +40,4 @@ public class MainActivity extends AppCompatActivity
         new AboutDialog().show(getSupportFragmentManager(), "about");
     }
 
-    @Override
-    public void onScheduleClicked(ChurchDetails details) {
-        final ScheduleFragment fragment = ScheduleFragment.newInstance(details);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .addToBackStack("")
-                .commit();
-    }
 }

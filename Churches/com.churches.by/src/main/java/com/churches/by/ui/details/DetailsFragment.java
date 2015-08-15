@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,15 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.churches.by.R;
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
 import com.churches.by.data.model.ChurchDetails;
+import com.churches.by.ui.schedule.ScheduleItemAdapter;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import rx.Observable;
@@ -37,7 +37,6 @@ public class DetailsFragment extends Fragment {
     public static final String CHURCH_KEY = "church key";
 
     public interface Listener {
-        void onScheduleClicked(ChurchDetails details);
     }
 
     public static DetailsFragment newInstance(Church church) {
@@ -53,30 +52,50 @@ public class DetailsFragment extends Fragment {
     public ChurchDetails churchDetails;
     private Listener listener;
 
+    List<View> tabs = new ArrayList<>();
+
     private final Action1<ChurchDetails> detailsObtainedAction = new Action1<ChurchDetails>() {
 
         @Override
-        public void call(ChurchDetails churchDetails) {
+        public void call(final ChurchDetails churchDetails) {
             DetailsFragment.this.churchDetails = churchDetails;
-            Palette generate = Palette.generate(churchDetails.image());
-
-            CardView imageFrame = (CardView) findViewById(R.id.church_image_frame);
-            imageFrame.setCardBackgroundColor(generate.getLightMutedSwatch().getRgb());
 
             ImageView imageView = (ImageView) findViewById(R.id.detailed_church_image);
             imageView.setImageBitmap(churchDetails.image());
 
-            TextView textView = (TextView) findViewById(R.id.parish_event_message);
+            final View events = findViewById(R.id.parish_event_message);
+            final View schedule = findViewById(R.id.schedule_items_message);
 
-            textView.setTextColor(textColorFromPalette(generate));
+            final View.OnClickListener eventsClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectOnly(view);
+                    recyclerView.setAdapter(new ChurchEventAdapter(churchDetails.events()));
+                }
+            };
+            events.setOnClickListener(eventsClickListener);
+            schedule.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectOnly(view);
+                    recyclerView.setAdapter(new ScheduleItemAdapter(churchDetails.scheduleItems()));
+                }
+            });
 
-//            getActivity().setTitle(churchDetails.church().name());
+            tabs.add(events);
+            tabs.add(schedule);
 
             recyclerView.setHasFixedSize(true);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(new ChurchEventAdapter(churchDetails.events()));
+            eventsClickListener.onClick(events);
         }
     };
+
+    private void selectOnly(View certainView) {
+        for (View view: tabs) {
+            view.setSelected(view == certainView);
+        }
+    }
 
     private View findViewById(int viewId) {
         return getActivity().findViewById(viewId);
@@ -128,9 +147,8 @@ public class DetailsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int itemId = item.getItemId();
-        if (itemId == R.id.calendar) {
-            listener.onScheduleClicked(churchDetails);
-        } else if (itemId == R.id.show_on_map) {
+
+        if (itemId == R.id.show_on_map) {
             showOnMap();
         }
         return super.onOptionsItemSelected(item);
@@ -150,12 +168,4 @@ public class DetailsFragment extends Fragment {
         }
     }
 
-    private int textColorFromPalette(Palette palette) {
-        Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
-
-        if (vibrantSwatch != null) {
-            return vibrantSwatch.getTitleTextColor();
-        }
-        return Integer.MAX_VALUE;
-    }
 }

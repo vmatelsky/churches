@@ -9,10 +9,4 @@
         android:title="@string/show_on_map"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/calendar"
-        android:icon="@drawable/ic_action_calendar_month"
-        android:title="@string/search_title"
-        app:showAsAction="always" />
-
 </menu>

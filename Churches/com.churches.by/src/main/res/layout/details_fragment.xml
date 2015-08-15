@@ -1,15 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/church_image_frame"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_gravity="center"
-        card_view:cardBackgroundColor="#ffccaa">
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/detailed_church_image"
@@ -18,28 +15,48 @@
             android:layout_gravity="center"
             android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/parish_event_message"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:background="#4A000000"
+            android:gravity="bottom"
+            android:orientation="horizontal"
             android:paddingBottom="6dp"
             android:paddingLeft="6dp"
-            android:text="@string/events_list_title"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:paddingRight="6dp">
 
-    </android.support.v7.widget.CardView>
+            <TextView
+                android:id="@+id/parish_event_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/events_list_title"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@drawable/church_details_tab_text_color" />
 
+            <TextView
+                android:id="@+id/schedule_items_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/schedule_list_title"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@drawable/church_details_tab_text_color" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/church_events_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
     </FrameLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/church_events_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
 </LinearLayout>
