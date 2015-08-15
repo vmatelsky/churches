@@ -4,9 +4,15 @@
     tools:context=".ChurchesMap">
 
     <item
+        android:id="@+id/show_on_map"
+        android:icon="@drawable/ic_action_globe"
+        android:title="@string/show_on_map"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/calendar"
         android:icon="@drawable/ic_action_calendar_month"
         android:title="@string/search_title"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
 </menu>

@@ -17,5 +17,7 @@
     <string name="events_list_title">Parish events</string>
     <string name="mass_schedule">Schedule</string>
     <string name="schedule_item_template" formatted="false">%d) %s</string>
+    <string name="show_on_map">Show on map</string>
+    <string name="no_application_can_handle_map_request">No applications can handle map request</string>
 
 </resources>

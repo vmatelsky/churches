@@ -1,6 +1,8 @@
 package com.churches.by.ui.details;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,11 +19,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.churches.by.R;
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
 import com.churches.by.data.model.ChurchDetails;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.Locale;
 
 import rx.Observable;
 import rx.functions.Action1;
@@ -64,7 +70,7 @@ public class DetailsFragment extends Fragment {
 
             textView.setTextColor(textColorFromPalette(generate));
 
-            getActivity().setTitle(churchDetails.church().name());
+//            getActivity().setTitle(churchDetails.church().name());
 
             recyclerView.setHasFixedSize(true);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -121,10 +127,27 @@ public class DetailsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.calendar) {
+        final int itemId = item.getItemId();
+        if (itemId == R.id.calendar) {
             listener.onScheduleClicked(churchDetails);
+        } else if (itemId == R.id.show_on_map) {
+            showOnMap();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showOnMap() {
+//        Address address = churchDetails.church().address();
+//        String uri = "geo:0,0?q=" + address.town() + "+" + address.street();
+        LatLng latLng = churchDetails.church().latLng();
+        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latLng.latitude, latLng.longitude);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+
+        if(intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(getActivity(), R.string.no_application_can_handle_map_request, Toast.LENGTH_LONG).show();
+        }
     }
 
     private int textColorFromPalette(Palette palette) {
