@@ -13,12 +13,14 @@ public class ChurchDetails implements Parcelable {
     private final Church church;
     private final Bitmap image;
     private final List<ChurchEvent> events;
+    private final List<ScheduleItem> scheduleItems;
     private final String description;
 
-    public ChurchDetails(Church church, Bitmap image, List<ChurchEvent> events, String description) {
+    public ChurchDetails(Church church, Bitmap image, List<ChurchEvent> events, List<ScheduleItem> scheduleItems, String description) {
         this.church = church;
         this.image = image;
         this.events = events;
+        this.scheduleItems = scheduleItems;
         this.description = description;
     }
 
@@ -26,6 +28,7 @@ public class ChurchDetails implements Parcelable {
         church = builder.church;
         image = builder.image;
         events = builder.events;
+        scheduleItems = builder.scheduleItems;
         description = builder.description;
     }
 
@@ -33,8 +36,12 @@ public class ChurchDetails implements Parcelable {
         church = in.readParcelable(Church.class.getClassLoader());
         image = in.readParcelable(Bitmap.class.getClassLoader());
 
-        events = new ArrayList<ChurchEvent>();
+        events = new ArrayList<>();
         in.readTypedList(events, ChurchEvent.CREATOR);
+
+        scheduleItems = new ArrayList<>();
+        in.readTypedList(scheduleItems, ScheduleItem.CREATOR);
+
         description = in.readString();
     }
 
@@ -64,6 +71,7 @@ public class ChurchDetails implements Parcelable {
         dest.writeParcelable(church, flags);
         dest.writeParcelable(image, flags);
         dest.writeTypedList(events);
+        dest.writeTypedList(scheduleItems);
         dest.writeString(description);
     }
 
@@ -80,10 +88,15 @@ public class ChurchDetails implements Parcelable {
         }
     };
 
+    public List<ScheduleItem> scheduleItems() {
+        return scheduleItems;
+    }
+
     public static final class Builder {
         private Church church;
         private Bitmap image;
         private List<ChurchEvent> events;
+        private List<ScheduleItem> scheduleItems;
         private String description;
 
         public Builder() {
