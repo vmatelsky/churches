@@ -1,7 +1,5 @@
 package com.churches.by;
 
-import android.test.InstrumentationTestCase;
-
 import com.churches.by.data.DataProvider;
 import com.churches.by.data.model.Church;
 import com.churches.by.data.model.receivers.ChurchesReceiver;
@@ -14,12 +12,10 @@ import org.mockito.invocation.DescribedInvocation;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.listeners.InvocationListener;
 import org.mockito.listeners.MethodInvocationReport;
-import org.mockito.stubbing.Answer;
 import org.mockito.verification.VerificationMode;
 
 import java.util.List;
 
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.withSettings;
@@ -41,7 +37,7 @@ public class DataProviderTest extends TestCaseWithMockito {
 
     public void testGetFavoritesAsync() {
         final ChurchesReceiver churchesObserver = mock(ChurchesReceiver.class, async());
-        provider.churchesAsync(churchesObserver);
+        provider.churchesAsync();
 
         ArgumentCaptor<List> messageCaptor = ArgumentCaptor.forClass(List.class);
         verify(churchesObserver, await()).call(messageCaptor.capture());

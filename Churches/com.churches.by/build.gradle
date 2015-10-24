@@ -3,12 +3,20 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.14.1'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.3'
     }
 }
+
 apply plugin: 'com.android.application'
 apply plugin: 'spoon'
+apply plugin: 'me.tatarka.retrolambda'
+
+retrolambda {
+    jdk JAVA8_HOME
+    oldJdk JAVA7_HOME
+    javaVersion JavaVersion.VERSION_1_6
+}
 
 android {
     compileSdkVersion 23
@@ -21,6 +29,12 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
             minifyEnabled false

@@ -134,8 +134,8 @@ public class DetailsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         final Church church = getArguments().getParcelable(CHURCH_KEY);
-        Observable.OnSubscribe<ChurchDetails> detailsOnSubscribe = DataProvider.instance().churchDetails(church);
-        Observable.create(detailsOnSubscribe).subscribe(detailsObtainedAction);
+        DataProvider.instance().churchDetails(church)
+        .subscribe(detailsObtainedAction);
     }
 
     @Override
