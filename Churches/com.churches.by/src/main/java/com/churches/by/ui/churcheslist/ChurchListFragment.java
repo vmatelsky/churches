@@ -73,7 +73,7 @@ public class ChurchListFragment extends Fragment implements ChurchListItemViewHo
             churchesList = savedInstanceState.getParcelableArrayList(CHURCHES_LIST_KEY);
             churchesObtainAction.call(churchesList);
         } else {
-            DataProvider.instance().churchesAsync();
+            DataProvider.instance().churchesAsync().subscribe(churchesObtainAction);
         }
     }
 
