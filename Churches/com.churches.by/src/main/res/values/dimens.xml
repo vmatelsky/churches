@@ -10,5 +10,6 @@
     <dimen name="listPreferredItemPaddingRight">6dip</dimen>
     <dimen name="listPreferredItemPaddingStart">6dip</dimen>
     <dimen name="listPreferredItemPaddingEnd">6dip</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>
