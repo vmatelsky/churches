@@ -10,6 +10,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class DataProvider {
@@ -52,6 +53,13 @@ public class DataProvider {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<Church> churchById(final long id) {
+        return churchesAsync()
+                .flatMapIterable(chs -> chs)
+                .filter(church -> church.id() == id)
+                .first();
+    }
+
     private Observable<List<Church>> createChurchesPerformer() {
         return Observable.just(churches());
     }
@@ -60,6 +68,16 @@ public class DataProvider {
         ChurchDetails details = DummyChurchDetails.Borisov;
 
         if (church.equals(DummyChurch.Katedra)) {
+            details = DummyChurchDetails.Katedra;
+        }
+
+        return Observable.just(details);
+    }
+
+    public Observable<ChurchDetails> churchDetailsByChurchId(final long churchId) {
+        ChurchDetails details = DummyChurchDetails.Borisov;
+
+        if (churchId == DummyChurch.Katedra.id()) {
             details = DummyChurchDetails.Katedra;
         }
 

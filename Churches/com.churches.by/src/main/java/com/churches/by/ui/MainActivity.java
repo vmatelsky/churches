@@ -1,18 +1,17 @@
 package com.churches.by.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.churches.by.R;
 import com.churches.by.data.model.Church;
 import com.churches.by.ui.churcheslist.ChurchListFragment;
-import com.churches.by.ui.details.DetailsFragment;
+import com.churches.by.ui.details.DetailsActivity;
 
 public class MainActivity extends AppCompatActivity
-        implements OnChurchInteractionListener,
-        DetailsFragment.Listener {
+        implements OnChurchInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +26,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onChurchClicked(Church church) {
-        final DetailsFragment fragment = DetailsFragment.newInstance(church);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack("")
-                .commit();
+    public void onChurchClicked(final Church church) {
+        Intent detailsActivityIntent = new Intent(this, DetailsActivity.class);
+        detailsActivityIntent.putExtra(DetailsActivity.CHURCH_ID_KEY, church.id());
+        startActivity(detailsActivityIntent);
     }
 
     @Override

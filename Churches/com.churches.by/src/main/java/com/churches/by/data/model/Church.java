@@ -9,20 +9,27 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Church implements Parcelable {
 
+    private final long id;
     private final Bitmap smallIcon;
     private final String name;
     private final Address address;
 
-    public Church(Bitmap smallIcon, String name, Address address) {
+    public Church(long id, Bitmap smallIcon, String name, Address address) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.smallIcon = smallIcon;
     }
 
     public Church(Parcel in) {
+        id = in.readLong();
         smallIcon = in.readParcelable(Bitmap.class.getClassLoader());
         name = in.readString();
         address = in.readParcelable(Address.class.getClassLoader());
+    }
+
+    public long id() {
+        return id;
     }
 
     public Bitmap smallIcon() {
@@ -58,6 +65,7 @@ public class Church implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
         dest.writeParcelable(smallIcon, flags);
         dest.writeString(name);
         dest.writeParcelable(address, flags);
