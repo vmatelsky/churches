@@ -8,9 +8,6 @@ import com.churches.by.data.model.Address;
 import com.churches.by.data.model.Church;
 import com.google.android.gms.maps.model.LatLng;
 
-/**
- * Created by matelskyvv on 3/22/15.
- */
 public class DummyChurch {
 
     public static Church Borisov = new Church(
